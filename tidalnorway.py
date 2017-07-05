@@ -15,12 +15,12 @@ import datetime
 from pytz import timezone
 
 if __name__ == '__main__':
-    print("tidalnorway-py supposed to be a class")
+    print("tidalnorway-py supposed to be a class in the future")
 
     #t = timezone(settings.TIME_ZONE).localize(datetime.now()).replace(microsecond=0)
-    
-    print(datetime.datetime.now().replace(microsecond=0).isoformat())
-
+    current_time_utc_iso = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+    print("Current datetime =", current_time_utc_iso)
+    print("### RESPONSE FROM SERVER ###")
     #page = requests.get("http://forecast.weather.gov/MapClick.php?lat=37.7772&lon=-122.4168")
     lat = "63.642022"
     lon = "9.498116"
@@ -33,16 +33,11 @@ if __name__ == '__main__':
     lang = "en"
     interval = "10"
     dst = "1"
-    zone = "1"
+    tzone = "0"
     tide_request = "locationdata"
     
-    payload = {'lat': lat, 'lon': lon, 'fromtime': fromtime, 'totime': totime, 'datatype': datatype, 'refcode': refcode, 'place': place, 'file': file, 'lang': lang, 'interval': interval, 'dst': dst, 'zone': zone, 'tide_request': tide_request}
+    payload = {'lat': lat, 'lon': lon, 'fromtime': fromtime, 'totime': totime, 'datatype': datatype, 'refcode': refcode, 'place': place, 'file': file, 'lang': lang, 'interval': interval, 'dst': dst, 'tzone': tzone, 'tide_request': tide_request}
 
     page = requests.get("http://api.sehavniva.no/tideapi.php", params=payload)
     soup = BeautifulSoup(page.content, 'lxml-xml')
     print(soup.prettify())
-    #soup = BeautifulSoup(page.content, 'html.parser')
-    #seven_day = soup.find(id="seven-day-forecast")
-    #forecast_items = seven_day.find_all(class_="tombstone-container")
-    #tonight = forecast_items[0]
-    #print(tonight.prettify())
